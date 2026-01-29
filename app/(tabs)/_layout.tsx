@@ -36,7 +36,7 @@ const _layout = () => {
       screenOptions={{
         tabBarShowLabel: false,
         tabBarItemStyle: {
-          width: "100%",
+          width: "200%",
           height: "100%",
           justifyContent: "center",
           alignItems: "center",
