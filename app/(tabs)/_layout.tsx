@@ -11,15 +11,19 @@ type TabIconProps = {
 
 function TabIcon({ focused, icon, title }: TabIconProps) {
   return (
-    <View className="items-center justify-center">
+    <View className="items-center justify-center gap-1" style={{ flexShrink: 0 }}>
       <Image
         source={icon}
         tintColor={focused ? "#AB8BFF" : "#A8B5DB"}
-        className="size-5"
+        resizeMode="contain"
+        style={{ width: 20, height: 20 }}
       />
       <Text
+        adjustsFontSizeToFit
+        numberOfLines={1}
+        style={{ flexShrink: 0 }}
         className={[
-          "text-[11px] mt-1",
+          "text-[10px]",
           focused ? "text-accent font-semibold" : "text-light-200",
         ].join(" ")}
       >
@@ -36,7 +40,6 @@ const _layout = () => {
       screenOptions={{
         tabBarShowLabel: false,
         tabBarItemStyle: {
-          width: "100%",
           height: "100%",
           justifyContent: "center",
           alignItems: "center",
