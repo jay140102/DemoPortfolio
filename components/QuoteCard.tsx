@@ -36,7 +36,7 @@ export function QuoteCard({ quote }: { quote: Quote }) {
       <View className="flex-row items-center">
         <View className="flex-1">
           <View className="flex-row items-center">
-            <Text className="text-white text-[24px] font-semibold">
+            <Text className="text-white text-[16px] font-semibold">
               {quote.symbol}
             </Text>
             {quote.tag ? (
@@ -50,15 +50,15 @@ export function QuoteCard({ quote }: { quote: Quote }) {
           <Text className="text-light-200 text-[14px] mt-1">{quote.name}</Text>
         </View>
 
-        <View className="items-end justify-center">
-          <Text className="text-white text-[28px] font-semibold">
+        <View className="w-32 items-end justify-center">
+          <Text className="text-white text-[16px] font-semibold">
             {formatNumber(quote.lastPrice)}
           </Text>
           <Text className="text-light-300 text-[12px] mt-1">{quote.time}</Text>
         </View>
 
         <View className="w-24 items-end justify-center ml-4">
-          <Text className="text-[22px] font-semibold" style={{ color: changeColor }}>
+          <Text className="text-[16px] font-semibold" style={{ color: changeColor }}>
             {formatSigned(quote.change)}
           </Text>
           <Text className="text-[14px] mt-1" style={{ color: changeColor }}>

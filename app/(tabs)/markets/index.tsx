@@ -1,8 +1,11 @@
+import { AddPortfolioModal } from "@/components/AddPortfolioModal";
 import { MarketsSegmentTabs } from "@/components/MarketsSegmentTabs";
 import { MarketsTopBar } from "@/components/MarketsTopBar";
+import type { Portfolio } from "@/components/PortfolioDropdown";
 import { QuoteCard, type Quote } from "@/components/QuoteCard";
 import { ScreenBackground } from "@/components/ScreenBackground";
 import { SideMenu } from "@/components/SideMenu";
+import { useStocks } from "@/contexts/StocksContext";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React, { useMemo, useState } from "react";
@@ -83,13 +86,47 @@ function getSortValue(q: Quote, key: SortKey) {
 }
 
 export default function MarketsQuotesScreen() {
+  const { getStocksByPortfolio } = useStocks();
   const [sortKey, setSortKey] = useState<SortKey>("symbol");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [addPortfolioModalOpen, setAddPortfolioModalOpen] = useState(false);
+
+  // Portfolio state management
+  const [portfolios, setPortfolios] = useState<Portfolio[]>([
+    { id: "1", name: "My Portfolio" },
+    { id: "2", name: "Tech Stocks" },
+    { id: "3", name: "Crypto" },
+  ]);
+  const [selectedPortfolioId, setSelectedPortfolioId] = useState("1");
+
+  const selectedPortfolio = portfolios.find((p) => p.id === selectedPortfolioId);
+
+  // Get stocks for selected portfolio and convert to Quote format
+  const portfolioStocks = useMemo(() => {
+    const stocks = getStocksByPortfolio(selectedPortfolioId);
+    return stocks.map((stock): Quote => {
+      // Check if it's a crypto asset (symbols ending with -USD or common crypto symbols)
+      const isCrypto = stock.symbol.includes('-USD') ||
+        ['BTC', 'ETH', 'USDT', 'BNB', 'SOL', 'XRP', 'ADA', 'DOGE'].includes(stock.symbol);
+
+      return {
+        symbol: stock.symbol,
+        name: stock.name,
+        lastPrice: stock.price,
+        time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
+        change: 0,
+        changePercent: 0,
+        tag: isCrypto ? 'CRYPTO' : undefined,
+      };
+    });
+  }, [selectedPortfolioId, getStocksByPortfolio]);
 
   const sorted = useMemo(() => {
+    // Combine dummy quotes with portfolio stocks
+    const allQuotes = [...DUMMY_QUOTES, ...portfolioStocks];
     const dir = sortDir === "asc" ? 1 : -1;
-    return [...DUMMY_QUOTES].sort((a, b) => {
+    return allQuotes.sort((a, b) => {
       const av = getSortValue(a, sortKey);
       const bv = getSortValue(b, sortKey);
 
@@ -98,7 +135,7 @@ export default function MarketsQuotesScreen() {
       }
       return (Number(av) - Number(bv)) * dir;
     });
-  }, [sortKey, sortDir]);
+  }, [sortKey, sortDir, portfolioStocks]);
 
   function onPressSort(key: SortKey) {
     if (key === sortKey) {
@@ -109,13 +146,30 @@ export default function MarketsQuotesScreen() {
     setSortDir("asc");
   }
 
+  const handleAddPortfolio = (portfolioName: string) => {
+    const newPortfolio: Portfolio = {
+      id: Date.now().toString(),
+      name: portfolioName,
+    };
+    setPortfolios([...portfolios, newPortfolio]);
+    setSelectedPortfolioId(newPortfolio.id);
+  };
+
   const sortArrow = sortDir === "asc" ? "▲" : "▼";
 
   return (
     <ScreenBackground>
       <StatusBar style="light" />
 
-      <MarketsTopBar title="My Portfolio" onPressMenu={() => setMenuOpen(true)} />
+      <MarketsTopBar
+        title={selectedPortfolio?.name || "My Portfolio"}
+        onPressMenu={() => setMenuOpen(true)}
+        onPressAdd={() => router.push(`/screens/add-stock?portfolioId=${selectedPortfolioId}`)}
+        portfolios={portfolios}
+        selectedPortfolioId={selectedPortfolioId}
+        onSelectPortfolio={setSelectedPortfolioId}
+        onAddPortfolio={() => setAddPortfolioModalOpen(true)}
+      />
 
       <MarketsSegmentTabs
         active="quotes"
@@ -186,7 +240,27 @@ export default function MarketsQuotesScreen() {
         showsVerticalScrollIndicator={false}
       />
 
-      <SideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <SideMenu
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        onPressPremium={() => {
+          setMenuOpen(false);
+          router.push("/screens/premium-plans");
+        }}
+        portfolios={portfolios}
+        selectedPortfolioId={selectedPortfolioId}
+        onSelectPortfolio={setSelectedPortfolioId}
+        onAddPortfolio={() => {
+          setMenuOpen(false);
+          setAddPortfolioModalOpen(true);
+        }}
+      />
+
+      <AddPortfolioModal
+        visible={addPortfolioModalOpen}
+        onClose={() => setAddPortfolioModalOpen(false)}
+        onSave={handleAddPortfolio}
+      />
     </ScreenBackground>
   );
 }
