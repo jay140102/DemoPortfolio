@@ -196,4 +196,6 @@ For issues or questions, please contact the development team.
 
 ---
 
+![Screenshot_2026-01-29-23-45-51-18](https://github.com/user-attachments/assets/9cdd71cb-bf5c-463e-83c1-e39a9a4d7912)
+
 **Built with ❤️ using React Native and Expo**
