@@ -1,0 +1,17 @@
+{
+    "name": "@primq/config",
+    "version": "1.0.0",
+    "private": true,
+    "main": "./index.js",
+    "types": "./index.d.ts",
+    "files": [
+        "*.js",
+        "*.d.ts",
+        "*.json"
+    ],
+    "exports": {
+        "./eslint": "./eslint.config.js",
+        "./typescript": "./tsconfig.base.json",
+        "./theme": "./theme.js"
+    }
+}

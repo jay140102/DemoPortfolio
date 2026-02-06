@@ -1,201 +1,112 @@
-# PrimQ - Portfolio Management App
+# Monorepo Structure
 
-A modern, feature-rich portfolio management application built with React Native and Expo. Track stocks, manage multiple portfolios, and access premium trading features.
+This is a monorepo for the Primq application, containing both mobile and web apps with shared packages.
 
-## 🚀 Features
-
-### Portfolio Management
-- **Multiple Portfolios**: Create and manage unlimited portfolios
-- **Portfolio Switching**: Easily switch between different portfolios
-- **Stock Tracking**: Add stocks with quantity tracking
-- **Real-time Quotes**: View live market data and price changes
-
-### Stock Management
-- **Add Stocks**: Search and add stocks to your portfolios
-- **Crypto Support**: Automatic detection and tagging of cryptocurrency assets
-- **Stock Details**: View comprehensive stock information including price, change, and percentage
-
-### Premium Features
-- **Premium Plans**: Access to Basic, Pro, and Elite subscription tiers
-- **Flexible Billing**: Choose between daily, monthly, or yearly billing periods
-- **Exclusive Features**: AI-powered insights, real-time alerts, and advanced analytics
-
-### User Interface
-- **Dark Theme**: Beautiful dark mode design throughout the app
-- **Custom Splash Screen**: Branded splash screen with smooth animations
-- **Side Menu**: Easy navigation with portfolio list and settings
-- **Responsive Design**: Optimized for various screen sizes
-
-## 📱 Screenshots
-
-- Markets screen with quote cards
-- Portfolio dropdown selector
-- Add stock screen with search
-- Premium plans with billing options
-- Side menu with portfolio list
-
-## 🛠️ Tech Stack
-
-- **Framework**: React Native with Expo
-- **Navigation**: Expo Router (file-based routing)
-- **Styling**: NativeWind (Tailwind CSS for React Native)
-- **Language**: TypeScript
-- **State Management**: React Context API
-- **Animations**: React Native Animated API
-
-## 📦 Installation
-
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd primq-native-app
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Start the development server:
-```bash
-npx expo start
-```
-
-4. Run on your device:
-   - Scan the QR code with Expo Go app (Android/iOS)
-   - Press `a` for Android emulator
-   - Press `i` for iOS simulator
-
-## 🏗️ Project Structure
+## Structure
 
 ```
 primq-native-app/
-├── app/                          # App screens and navigation
-│   ├── (tabs)/                   # Tab-based navigation
-│   │   ├── markets/              # Markets screen
-│   │   ├── academy/              # Academy screen
-│   │   └── profile/              # Profile screen
-│   ├── screens/                  # Modal screens
-│   │   ├── add-stock.tsx         # Add stock screen
-│   │   └── premium-plans.tsx     # Premium plans screen
-│   ├── index.tsx                 # Entry point with splash
-│   ├── SplashScreen.tsx          # Custom splash screen
-│   └── _layout.tsx               # Root layout
-├── components/                   # Reusable components
-│   ├── AddPortfolioModal.tsx     # Add portfolio modal
-│   ├── MarketsTopBar.tsx         # Markets top bar
-│   ├── PortfolioDropdown.tsx     # Portfolio selector
-│   ├── QuoteCard.tsx             # Stock quote card
-│   ├── SideMenu.tsx              # Navigation drawer
-│   └── ScreenBackground.tsx      # Background wrapper
-├── contexts/                     # React Context providers
-│   └── StocksContext.tsx         # Stocks state management
-├── constants/                    # App constants
-│   └── icons.ts                  # Icon exports
-└── assets/                       # Images and fonts
-    └── icons/                    # App icons
-
+├── apps/
+│   ├── mobile/          # Expo Bare → Android/iOS
+│   └── web/             # Next.js (placeholder)
+│
+├── packages/
+│   ├── ui/              # Shared components
+│   ├── hooks/           # Shared hooks
+│   ├── api/             # API clients
+│   ├── config/          # ESLint/TSConfig/Theme
+│   └── types/           # Shared TypeScript types
+│
+└── docker/
+    ├── android.Dockerfile
+    ├── web.Dockerfile
+    └── ci-scripts/
 ```
 
-## 🎨 Color Palette
+## Getting Started
 
-- **Background**: `#0F0D23` (Dark)
-- **Accent**: `#AB8BFF` (Purple)
-- **Text Primary**: `#FFFFFF` (White)
-- **Text Secondary**: `#A8B5DB` (Light Gray)
-- **Success**: `#2EE5A2` (Green)
-- **Error**: `#FF6B8B` (Red)
+### Prerequisites
 
-## 📝 Key Components
+- Node.js >= 18
+- pnpm >= 9.0.0
 
-### StocksContext
-Global state management for stocks across portfolios. Provides:
-- `addStock()`: Add a stock to a portfolio
-- `getStocksByPortfolio()`: Get stocks for a specific portfolio
+### Installation
 
-### Portfolio Management
-- Create unlimited portfolios
-- Switch between portfolios
-- Each portfolio maintains its own stock list
-
-### Quote Display
-- Real-time price updates
-- Change indicators (positive/negative)
-- Crypto asset tagging
-- Sortable by symbol, price, or change
-
-## 🔧 Configuration
-
-### App Configuration (`app.json`)
-- App name: Primq Native App
-- Bundle ID: `com.jay1401.primqnativeapp`
-- Splash screen: Dark theme background
-- Orientation: Portrait only
-
-### TypeScript
-- Strict mode enabled
-- Path aliases configured (`@/`)
-- Synthetic default imports enabled
-
-## 📱 Screens
-
-### Markets Screen
-- View all stocks in the selected portfolio
-- Sort by symbol, price, or change
-- Access portfolio dropdown
-- Navigate to add stock screen
-
-### Add Stock Screen
-- Search stocks by symbol or name
-- Select stock and enter quantity
-- Automatic portfolio association
-- Crypto detection
-
-### Premium Plans Screen
-- Three plan tiers: Basic, Pro, Elite
-- Billing period toggle (daily/monthly/yearly)
-- Feature comparison
-- Pricing display
-
-## 🚀 Deployment
-
-### Build for Production
-
-**Android:**
 ```bash
-eas build --platform android
+# Install pnpm globally if you haven't
+npm install -g pnpm
+
+# Install all dependencies
+pnpm install
 ```
 
-**iOS:**
+### Development
+
 ```bash
-eas build --platform ios
+# Run mobile app
+pnpm mobile
+
+# Run web app (when implemented)
+pnpm web
+
+# Build all packages
+pnpm build
+
+# Lint all packages
+pnpm lint
 ```
 
-### Update OTA
-```bash
-eas update --branch production
-```
+## Package Manager
 
-## 👤 Author
+This monorepo supports both npm and pnpm workspaces:
+- **Primary**: pnpm (faster, stricter)
+- **Fallback**: npm workspaces (for compatibility)
 
-**Jay Pratap Singh**
-- Portfolio: PrimQ
-- Tagline: Smart Trading Simplified
+## Build Tool
 
-## 📄 License
+Uses **Turborepo** for:
+- Build caching
+- Task orchestration
+- Parallel execution
 
-This project is private and proprietary.
+## Apps
 
-## 🤝 Contributing
+### Mobile (`apps/mobile`)
+- Expo bare workflow
+- React Native
+- Android native code
+- Package: `@primq/mobile`
 
-This is a personal project. Contributions are not currently accepted.
+### Web (`apps/web`)
+- Next.js (placeholder)
+- Package: `@primq/web`
 
-## 📞 Support
+## Shared Packages
 
-For issues or questions, please contact the development team.
+All packages are scoped under `@primq/*`:
 
----
+- `@primq/ui` - Shared React/React Native components
+- `@primq/hooks` - Shared React hooks
+- `@primq/api` - API clients and utilities
+- `@primq/config` - Shared configurations (ESLint, TypeScript, Theme)
+- `@primq/types` - Shared TypeScript types
 
-![Screenshot_2026-01-29-23-45-51-18](https://github.com/user-attachments/assets/9cdd71cb-bf5c-463e-83c1-e39a9a4d7912)
+## Docker
 
-**Built with ❤️ using React Native and Expo**
+Placeholder Dockerfiles for production builds:
+- `docker/android.Dockerfile` - Android production builds
+- `docker/web.Dockerfile` - Web production builds
+- `docker/ci-scripts/` - CI/CD automation scripts
+
+## Scripts
+
+- `pnpm dev` - Start all apps in development mode
+- `pnpm build` - Build all packages and apps
+- `pnpm lint` - Lint all packages
+- `pnpm clean` - Clean all build artifacts
+- `pnpm mobile` - Run mobile app
+- `pnpm web` - Run web app
+
+## License
+
+Private
