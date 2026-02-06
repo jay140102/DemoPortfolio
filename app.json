@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "DemoPortfolio",
-    "slug": "DemoPortfolio",
+    "name": "Primq Native App",
+    "slug": "primq-native-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myDemo",
+    "scheme": "primq",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.jay1401.DemoPortfolio",
+      "bundleIdentifier": "com.jay1401.primqnativeapp",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -24,7 +24,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.jay1401.DemoPortfolio"
+      "package": "com.jay1401.primqnativeapp"
     },
     "web": {
       "output": "static",

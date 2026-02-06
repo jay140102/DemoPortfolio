@@ -48,7 +48,7 @@ A modern, feature-rich portfolio management application built with React Native 
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd DemoPortfolio
+cd primq-native-app
 ```
 
 2. Install dependencies:
@@ -69,7 +69,7 @@ npx expo start
 ## 🏗️ Project Structure
 
 ```
-DemoPortfolio/
+primq-native-app/
 ├── app/                          # App screens and navigation
 │   ├── (tabs)/                   # Tab-based navigation
 │   │   ├── markets/              # Markets screen
@@ -127,8 +127,8 @@ Global state management for stocks across portfolios. Provides:
 ## 🔧 Configuration
 
 ### App Configuration (`app.json`)
-- App name: DemoPortfolio
-- Bundle ID: `com.jay1401.DemoPortfolio`
+- App name: Primq Native App
+- Bundle ID: `com.jay1401.primqnativeapp`
 - Splash screen: Dark theme background
 - Orientation: Portrait only
 
