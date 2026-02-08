@@ -7,6 +7,7 @@ export default function RootLayout() {
     <StocksProvider>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="WebLandingPage" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="screens/StockInfo"
